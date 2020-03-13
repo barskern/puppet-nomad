@@ -109,7 +109,7 @@ class nomad (
   } elsif ($config_hash_real['client_addr']) {
     $rpc_addr = $config_hash_real['client_addr']
   } else {
-    $rpc_addr = $::ipaddress_lo
+    $rpc_addr = '127.0.0.1'
   }
 
   $notify_service = $restart_on_change ? {
