@@ -11,10 +11,8 @@ kernel: 'Linux'
 os:
   architecture: 'x86_64'
   name: 'Ubuntu'
-  distro:
-    codename: 'ubuntu'
-    release:
-      full: '10.04'
-      major: '10'
-      minor: '04'
   family: 'Debian'
+  release:
+    full: '10.04'
+    major: '10'
+    minor: '04'

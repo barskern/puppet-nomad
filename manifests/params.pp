@@ -25,30 +25,30 @@ class nomad::params {
 
   case $::facts['os']['family'] {
     'Ubuntu': {
-      if versioncmp($::facts['os']['distro']['release']['full'], '8.04') < 1 {
+      if versioncmp($::facts['os']['release']['full'], '8.04') < 1 {
         $init_style = 'debian'
-      } elsif versioncmp($::facts['os']['distro']['release']['full'], '15.04') < 0 {
+      } elsif versioncmp($::facts['os']['release']['full'], '15.04') < 0 {
         $init_style = 'upstart'
       } else {
         $init_style = 'systemd'
       }
     }
     /Scientific|CentOS|RedHat|OracleLinux/: {
-      if versioncmp($::facts['os']['distro']['release']['full'], '7.0') < 0 {
+      if versioncmp($::facts['os']['release']['full'], '7.0') < 0 {
         $init_style = 'sysv'
       } else {
         $init_style  = 'systemd'
       }
     }
     'Fedora': {
-      if versioncmp($::facts['os']['distro']['release']['full'], '12') < 0 {
+      if versioncmp($::facts['os']['release']['full'], '12') < 0 {
         $init_style = 'sysv'
       } else {
         $init_style = 'systemd'
       }
     }
     'Debian': {
-      if versioncmp($::facts['os']['distro']['release']['full'], '8.0') < 0 {
+      if versioncmp($::facts['os']['release']['full'], '8.0') < 0 {
         $init_style = 'debian'
       } else {
         $init_style = 'systemd'
@@ -58,7 +58,7 @@ class nomad::params {
       $init_style = 'systemd'
     }
     /SLE[SD]/: {
-      if versioncmp($::facts['os']['distro']['release']['full'], '12.0') < 0 {
+      if versioncmp($::facts['os']['release']['full'], '12.0') < 0 {
         $init_style = 'sles'
       } else {
         $init_style = 'systemd'

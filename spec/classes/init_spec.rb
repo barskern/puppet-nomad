@@ -418,10 +418,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '6.5',
-          },
+        :release => {
+          full: '6.5',
         },
         :family => 'CentOS',
       }
@@ -448,10 +446,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '3.10.34-37.137.amzn1.x86_64',
-          },
+        :release => {
+          full: '3.10.34-37.137.amzn1.x86_64',
         },
         :family => 'Amazon',
       }
@@ -466,10 +462,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '7.0',
-          },
+        :release => {
+          full: '7.0',
         },
         :family => 'CentOS',
       }
@@ -484,10 +478,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '20',
-          },
+        :release => {
+          full: '20',
         },
         :family => 'Fedora',
       }
@@ -502,10 +494,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '8.04',
-          },
+        :release => {
+          full: '8.04',
         },
         :family => 'Ubuntu',
       }
@@ -524,10 +514,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '15.04',
-          },
+        :release => {
+          full: '15.04',
         },
         :family => 'Ubuntu',
       }
@@ -550,10 +538,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '7.1',
-          },
+        :release => {
+          full: '7.1',
         },
         :family => 'Debian',
       }
@@ -566,10 +552,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '13.1',
-          },
+        :release => {
+          full: '13.1',
         },
         :family => 'OpenSuSE',
       }
@@ -582,10 +566,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '11.4',
-          },
+        :release => {
+          full: '11.4',
         },
         :family => 'SLED',
       }
@@ -598,10 +580,8 @@ describe 'nomad' do
     let(:facts) {{
       :os => {
         :architecture => 'x86_64',
-        :distro => {
-          :release => {
-            full: '12.0',
-          },
+        :release => {
+          full: '12.0',
         },
         :family => 'SLED',
       }
