@@ -23,14 +23,14 @@ describe 'nomad' do
     let(:params) {{
       :purge_config_dir => 'hello'
     }}
-    it { expect { should compile }.to raise_error(/is not a boolean/) }
+    it { expect { should compile }.to raise_error(/expects a Boolean value/) }
   end
 
   context 'When passing a non-bool as manage_service' do
     let(:params) {{
       :manage_service => 'hello'
     }}
-    it { expect { should compile }.to raise_error(/is not a boolean/) }
+    it { expect { should compile }.to raise_error(/expects a Boolean value/) }
   end
 
   context 'When disable config purging' do
