@@ -2,41 +2,41 @@ require 'spec_helper'
 
 RSpec.shared_examples 'handling_simple_types' do |pretty|
   it 'handles nil' do
-    expect(pretty({'key' => nil })).to eql('{"key":null}')
+    expect(subject.execute({'key' => nil },pretty)).to eql('{"key":null}')
   end
   it 'handles true' do
-    expect(pretty({'key' => true })).to eql('{"key":true}')
+    expect(subject.execute({'key' => true },pretty)).to eql('{"key":true}')
   end
   it 'handles nil' do
-    expect(pretty({'key' => false })).to eql('{"key":false}')
+    expect(subject.execute({'key' => false },pretty)).to eql('{"key":false}')
   end
   it 'handles positive integer' do
-    expect(pretty({'key' => 1 })).to eql('{"key":1}')
+    expect(subject.execute({'key' => 1 },pretty)).to eql('{"key":1}')
   end
   it 'handles negative integer' do
-    expect(pretty({'key' => -1 })).to eql('{"key":-1}')
+    expect(subject.execute({'key' => -1 },pretty)).to eql('{"key":-1}')
   end
   it 'handles positive float' do
-    expect(pretty({'key' => 1.1 })).to eql('{"key":1.1}')
+    expect(subject.execute({'key' => 1.1 },pretty)).to eql('{"key":1.1}')
   end
   it 'handles negative float' do
-    expect(pretty({'key' => -1.1 })).to eql('{"key":-1.1}')
+    expect(subject.execute({'key' => -1.1 },pretty)).to eql('{"key":-1.1}')
   end
   it 'handles integer in a string' do
-    expect(pretty({'key' => '1' })).to eql('{"key":1}')
+    expect(subject.execute({'key' => '1' },pretty)).to eql('{"key":1}')
   end
   it 'handles negative integer in a string' do
-    expect(pretty({'key' => '-1' })).to eql('{"key":-1}')
+    expect(subject.execute({'key' => '-1' },pretty)).to eql('{"key":-1}')
   end
   it 'handles simple string' do
-    expect(pretty({'key' => 'aString' })).to eql("{\"key\":\"aString\"}")
+    expect(subject.execute({'key' => 'aString' },pretty)).to eql("{\"key\":\"aString\"}")
   end
 end
-describe 'nomad_sorted_json', :type => :puppet_function do
+describe 'nomad::sorted_json', :type => :puppet_function do
 
   let(:test_hash){ { 'z' => 3, 'a' => '1', 'p' => '2', 's' => '-7' } }
   before do
-    @json = nomad::sorted_json(test_hash, true)
+    @json = subject.execute(test_hash, true)
   end
   it "sorts keys" do
     expect( @json.index('a') ).to be < @json.index('p')
@@ -49,12 +49,12 @@ describe 'nomad_sorted_json', :type => :puppet_function do
   end
 
   it "prints ugly json" do
-    json = nomad::sorted_json(test_hash) # pretty=false by default
+    json = subject.execute(test_hash) # pretty=false by default
     expect(json.split("\n").size).to eql(1)
   end
 
   it "validate ugly json" do
-    json = nomad::sorted_json([test_hash]) # pretty=false by default
+    json = subject.execute(test_hash) # pretty=false by default
     expect(json).to match("{\"a\":1,\"p\":2,\"s\":-7,\"z\":3}")
   end
 
@@ -64,7 +64,7 @@ describe 'nomad_sorted_json', :type => :puppet_function do
                               'a' => {'z' => '3', 'x' => '1', 'y' => '2'},
                               'p' => [ '9','8','7'] } }
     before do
-      @json = nomad::sorted_json([nested_test_hash, true])
+      @json = subject.execute(nested_test_hash, true)
     end
 
     it "sorts nested hashes" do
@@ -77,8 +77,9 @@ describe 'nomad_sorted_json', :type => :puppet_function do
     context 'sorted' do
       include_examples 'handling_simple_types', false
     end
-    context 'sorted pretty' do
-      include_examples 'handling_simple_types', true
-    end
+    # FIXME All the values in the examples assume non-formatted output
+    # context 'sorted pretty' do
+    #   include_examples 'handling_simple_types', true
+    # end
   end
 end
