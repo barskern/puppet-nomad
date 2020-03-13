@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'nomad_validate_checks' do
+describe 'nomad::validate_checks' do
 
   describe 'validate script and http' do
     it {should run.with_params([
