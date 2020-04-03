@@ -1,12 +1,12 @@
 {
-  "name": "dudemcbacon-nomad",
+  "name": "barskern-nomad",
   "version": "0.0.3",
   "author": "Brandon Burnett <gentoolicious@gmail.com>",
   "summary": "Configures Nomad by Hashicorp",
   "license": "Apache-2.0",
-  "source": "https://github.com/dudemcbacon/puppet-nomad",
-  "project_page": "https://github.com/dudemcbacon/puppet-nomad",
-  "issues_url": "https://github.com/dudemcbacon/puppet-nomad/issues",
+  "source": "https://github.com/barskern/puppet-nomad",
+  "project_page": "https://github.com/barskern/puppet-nomad",
+  "issues_url": "https://github.com/barskern/puppet-nomad/issues",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
