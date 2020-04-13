@@ -198,7 +198,7 @@ describe 'nomad' do
     end
 
     it { is_expected.to contain_file('nomad config.json').with_content(%r{"bootstrap_expect":5}) }
-    it { is_expected.to contain_file('nomad config.json').with_content(/"data_dir":"\/dir1"/) }
+    it { is_expected.to contain_file('nomad config.json').with_content(%r{"data_dir":"/dir1"}) }
   end
 
   context 'Config_defaults is used to provide additional config and is overridden' do
@@ -224,7 +224,7 @@ describe 'nomad' do
     end
 
     it { is_expected.to contain_file('nomad config.json').with_content(%r{"bootstrap_expect":5}) }
-    it { is_expected.to contain_file('nomad config.json').with_content(/"data_dir":"\/dir1"/) }
+    it { is_expected.to contain_file('nomad config.json').with_content(%r{"data_dir":"/dir1"}) }
     it { is_expected.to contain_file('nomad config.json').with_content(%r{"server":true}) }
     it { is_expected.to contain_file('nomad config.json').with_content(%r{"http":-1}) }
     it { is_expected.to contain_file('nomad config.json').with_content(%r{"https":8500}) }
@@ -272,7 +272,7 @@ describe 'nomad' do
   end
 
   context 'When a reload_service is triggered with service_ensure stopped' do
-    let (:params) do
+    let(:params) do
       {
         service_ensure: 'stopped',
       }
@@ -282,7 +282,7 @@ describe 'nomad' do
   end
 
   context 'When a reload_service is triggered with manage_service false' do
-    let (:params) do
+    let(:params) do
       {
         manage_service: false,
       }
@@ -325,7 +325,7 @@ describe 'nomad' do
   end
 
   context 'When nomad is reloaded' do
-    let (:facts) do
+    let(:facts) do
       {
         ipaddress_lo: '127.0.0.1',
       }
@@ -338,7 +338,7 @@ describe 'nomad' do
   end
 
   context 'When nomad is reloaded on a custom port' do
-    let (:params) do
+    let(:params) do
       {
         config_hash: {
           'ports' => {
@@ -358,7 +358,7 @@ describe 'nomad' do
   end
 
   context 'When nomad is reloaded with a default client_addr' do
-    let (:params) do
+    let(:params) do
       {
         config_hash: {
           'client_addr' => '192.168.34.56',
@@ -373,12 +373,12 @@ describe 'nomad' do
   end
 
   context 'When using sysv' do
-    let (:params) do
+    let(:params) do
       {
         init_style: 'sysv',
       }
     end
-    let (:facts) do
+    let(:facts) do
       {
         ipaddress_lo: '127.0.0.1',
       }
@@ -392,7 +392,7 @@ describe 'nomad' do
   end
 
   context 'When overriding default rpc port on sysv' do
-    let (:params) do
+    let(:params) do
       {
         init_style: 'sysv',
         config_hash: {
@@ -414,7 +414,7 @@ describe 'nomad' do
   end
 
   context 'When rpc_addr defaults to client_addr on sysv' do
-    let (:params) do
+    let(:params) do
       {
         init_style: 'sysv',
         config_hash: {
@@ -431,12 +431,12 @@ describe 'nomad' do
   end
 
   context 'When using debian' do
-    let (:params) do
+    let(:params) do
       {
         init_style: 'debian',
       }
     end
-    let (:facts) do
+    let(:facts) do
       {
         ipaddress_lo: '127.0.0.1',
       }
@@ -450,7 +450,7 @@ describe 'nomad' do
   end
 
   context 'When overriding default rpc port on debian' do
-    let (:params) do
+    let(:params) do
       {
         init_style: 'debian',
         config_hash: {
@@ -472,12 +472,12 @@ describe 'nomad' do
   end
 
   context 'When using upstart' do
-    let (:params) do
+    let(:params) do
       {
         init_style: 'upstart',
       }
     end
-    let (:facts) do
+    let(:facts) do
       {
         ipaddress_lo: '127.0.0.1',
       }
@@ -491,7 +491,7 @@ describe 'nomad' do
   end
 
   context 'When overriding default rpc port on upstart' do
-    let (:params) do
+    let(:params) do
       {
         init_style: 'upstart',
         config_hash: {

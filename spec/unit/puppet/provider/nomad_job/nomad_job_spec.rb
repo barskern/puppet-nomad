@@ -11,7 +11,7 @@ RSpec.describe Puppet::Provider::NomadJob::NomadJob do
   let(:connection_info) { { host: 'valid.org', enable_ssl: false } }
   let(:context) { instance_double('Puppet::ResourceApi::BaseContext', 'context') }
 
-  before (:each) do
+  before(:each) do
     allow(context).to receive_messages([:info, :debug])
 
     allow(context).to receive(:transport).and_return(Puppet::Transport::Nomad.new(context, connection_info))

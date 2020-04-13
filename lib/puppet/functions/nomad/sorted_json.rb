@@ -81,11 +81,11 @@ Puppet::Functions.create_function(:'nomad::sorted_json') do
       when NilClass, :undef, Integer, Float, TrueClass, FalseClass, String
         return simple_generate.call(obj)
       when Array
-        arrayRet = []
+        array_ret = []
         obj.each do |a|
-          arrayRet.push(sorted_generate.call(a))
+          array_ret.push(sorted_generate.call(a))
         end
-        return '[' << arrayRet.join(',') << ']'
+        return '[' << array_ret.join(',') << ']'
       when Hash
         ret = []
         obj.keys.sort.each do |k|
@@ -101,15 +101,15 @@ Puppet::Functions.create_function(:'nomad::sorted_json') do
       end
     end
 
-    sorted_pretty_generate = ->(obj, indent_len = 4, level = 0) do
+    sorted_pretty_generate = ->(obj, iindent_len = 4, level = 0) do
       # Indent length
-      indent = ' ' * indent_len
+      indent = ' ' * iindent_len
 
       case obj
       when NilClass, :undef, Integer, Float, TrueClass, FalseClass, String
         return simple_generate.call(obj)
       when Array
-        arrayRet = []
+        array_ret = []
 
         # We need to increase the level count before #each so the objects inside are indented twice.
         # When we come out of #each we decrease the level count so the closing brace lines up properly.
@@ -124,11 +124,11 @@ Puppet::Functions.create_function(:'nomad::sorted_json') do
         #
         level += 1
         obj.each do |a|
-          arrayRet.push(sorted_pretty_generate.call(a, indent_len, level))
+          array_ret.push(sorted_pretty_generate.call(a, iindent_len, level))
         end
         level -= 1
 
-        return "[\n#{indent * (level + 1)}" << arrayRet.join(",\n#{indent * (level + 1)}") << "\n#{indent * level}]"
+        return "[\n#{indent * (level + 1)}" << array_ret.join(",\n#{indent * (level + 1)}") << "\n#{indent * level}]"
 
       when Hash
         ret = []
@@ -139,7 +139,7 @@ Puppet::Functions.create_function(:'nomad::sorted_json') do
           if k =~ %r{\A(node_meta|meta|tags)\z}
             quoted = true
           end
-          ret.push((indent * level).to_s << k.to_json << ': ' << sorted_pretty_generate.call(obj[k], indent_len, level))
+          ret.push((indent * level).to_s << k.to_json << ': ' << sorted_pretty_generate.call(obj[k], iindent_len, level))
         end
         level -= 1
 
@@ -150,10 +150,7 @@ Puppet::Functions.create_function(:'nomad::sorted_json') do
       end
     end
 
-    if pretty
-      return sorted_pretty_generate.call(unsorted_hash, indent_len) << "\n"
-    else
-      return sorted_generate.call(unsorted_hash)
-    end
+    return sorted_generate.call(unsorted_hash) unless pretty
+    sorted_pretty_generate.call(unsorted_hash, indent_len) << "\n"
   end
 end

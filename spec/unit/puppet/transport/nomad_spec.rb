@@ -25,7 +25,7 @@ RSpec.describe Puppet::Transport::Nomad do
   end
 
   describe '#verify(context)' do
-    subject (:verify) { transport.verify(context) }
+    subject(:verify) { transport.verify(context) }
 
     before(:each) do
       stub_request(:get, 'http://valid.org:4646/v1/agent/health')
@@ -45,7 +45,7 @@ RSpec.describe Puppet::Transport::Nomad do
   end
 
   describe '#facts(context)' do
-    subject (:facts) { transport.facts(context) }
+    subject(:facts) { transport.facts(context) }
 
     before(:each) do
       stub_request(:get, 'http://valid.org:4646/v1/agent/self')
@@ -59,7 +59,7 @@ RSpec.describe Puppet::Transport::Nomad do
   end
 
   describe '#close(context)' do
-    subject (:close) { transport.close(context) }
+    subject(:close) { transport.close(context) }
 
     it 'releases resources' do
       close
