@@ -5,20 +5,19 @@ require 'puppet/transport/nomad'
 
 # Implementation for the nomad_job type using the Resource API.
 class Puppet::Provider::NomadJob::NomadJob < Puppet::ResourceApi::SimpleProvider
-  def initialize
-  end
+  def initialize; end
 
-  def get(context, names = nil)
+  def get(context, _names = nil)
     context.transport.get('/v1/jobs').map do |job|
       {
-        :name => job["ID"],
-        :job  => context.transport.get("/v1/job/#{job["ID"]}"),
-        :ensure => 'present',
+        name: job['ID'],
+        job: context.transport.get("/v1/job/#{job['ID']}"),
+        ensure: 'present',
       }
     end
   end
 
-  def create(context, name, should)
+  def create(context, _name, should)
     context.transport.post('/v1/jobs', should[:job])
   end
 
