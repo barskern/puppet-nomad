@@ -32,7 +32,7 @@ module Puppet::Transport
     def facts(context)
       context.debug('Retrieving facts')
       facts = get('/v1/agent/self')
-      return facts.reject {|k, v| k == 'stats'}
+      return { 'nomad' => facts.select {|k, v| ['config', 'member'].include?(k) } }
     end
 
     # Close the connection and release all resources

@@ -53,9 +53,9 @@ RSpec.describe Puppet::Transport::Nomad do
         .to_return(body: '{"config":{}, "member":{}, "stats":{}}')
     end
 
-    it { is_expected.to include('config', 'member') }
+    it { is_expected.to include('nomad' => {"config" => {}, "member" => {}}) }
 
-    it { is_expected.not_to include('stats') }
+    it { is_expected.not_to include('nomad' => {"stats" => {}}) }
   end
 
   describe '#close(context)' do
