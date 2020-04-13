@@ -18,7 +18,7 @@ these lines.
 **Autorequires**:
 * `Package[foo]`
 EOS
-  features: ['simple_get_filter'],
+  features: ['simple_get_filter', 'remote_resource'],
   attributes: {
     ensure: {
       type:    'Enum[present, absent]',
@@ -32,7 +32,7 @@ EOS
     },
     job: {
       type: 'Hash',
-      desc: 'The job specification in JSON. See https://nomadproject.io/api-docs/json-jobs/#job',
+      desc: 'The job specification as a Hash (same keys as JSON, see https://nomadproject.io/api-docs/json-jobs/#job)',
     },
   },
 )

@@ -1,37 +1,32 @@
 # frozen_string_literal: true
 
 require 'puppet/resource_api/simple_provider'
+require 'puppet/transport/nomad'
 
 # Implementation for the nomad_job type using the Resource API.
 class Puppet::Provider::NomadJob::NomadJob < Puppet::ResourceApi::SimpleProvider
   def initialize
-    require 'net/http'
-
-    @@BASE_URL = "http://servie.lan:4646"
   end
 
   def get(context, names = nil)
-    HTTP.get("#{BASE_URL}/v1/jobs").parse.map do |job|
+    context.transport.get('/v1/jobs').map do |job|
       {
         :name => job["ID"],
-        :job  => HTTP.get("#{BASE_URL}/v1/job/#{job["ID"]}").parse,
+        :job  => context.transport.get("/v1/job/#{job["ID"]}"),
         :ensure => 'present',
       }
     end
   end
 
   def create(context, name, should)
-    res = HTTP.post("#{BASE_URL}/v1/jobs", :json => should[:job]).parse
-    print res, "\n"
+    context.transport.post('/v1/jobs', should[:job])
   end
 
   def update(context, name, should)
-    res = HTTP.post("#{BASE_URL}/v1/job/#{should[:name]}", :json => should[:job]).parse
-    print res, "\n"
+    context.transport.post("/v1/job/#{name}", should[:job])
   end
 
   def delete(context, name)
-    res = HTTP.delete("#{BASE_URL}/v1/job/#{should[:name]}").parse
-    print res, "\n"
+    context.transport.delete("/v1/job/#{name}")
   end
 end
