@@ -74,7 +74,7 @@ RSpec.describe Puppet::Transport::Nomad do
         .to_return(status: 200, body: '{"ServerName":"test"}')
     end
 
-    it { expect(transport.get('/v1/agent/members')).to eq('ServerName' => 'test') }
+    it { expect(transport.inner.get('/v1/agent/members')).to eq('ServerName' => 'test') }
   end
 
   describe '#post(path, data)' do
@@ -84,7 +84,7 @@ RSpec.describe Puppet::Transport::Nomad do
         .to_return(status: 200, body: '{"Job":{}}')
     end
 
-    it { expect(transport.post('/v1/jobs', 'Job' => {})).to eq('Job' => {}) }
+    it { expect(transport.inner.post('/v1/jobs', 'Job' => {})).to eq('Job' => {}) }
   end
 
   describe '#put(path, data)' do
@@ -94,7 +94,7 @@ RSpec.describe Puppet::Transport::Nomad do
         .to_return(status: 200, body: '{"Job":{}}')
     end
 
-    it { expect(transport.put('/v1/jobs', 'Job' => {})).to eq('Job' => {}) }
+    it { expect(transport.inner.put('/v1/jobs', 'Job' => {})).to eq('Job' => {}) }
   end
 
   describe '#delete(path)' do
@@ -103,6 +103,6 @@ RSpec.describe Puppet::Transport::Nomad do
         .to_return(status: 200, body: '{"EvalID":"1234"}')
     end
 
-    it { expect(transport.delete('/v1/job/abc')).to eq('EvalID' => '1234') }
+    it { expect(transport.inner.delete('/v1/job/abc')).to eq('EvalID' => '1234') }
   end
 end
