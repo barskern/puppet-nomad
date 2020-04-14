@@ -5,16 +5,14 @@ require 'puppet/util/json'
 require 'puppet/pops'
 require 'uri'
 
-module Puppet::Util
+module Barskern
   # The main connection class to a Nomad endpoint
   class Nomad
     # Initialise this transport with a set of credentials
-    def initialize(context, connection_info)
+    def initialize(connection_info)
       @uri = URI("http#{connection_info[:enable_ssl] ? 's' : ''}://#{connection_info[:host]}:#{connection_info[:port] || 4646}")
       @token = connection_info[:token]
       @client = Puppet::HTTP::Client.new
-
-      context.info("Connecting to #{@uri}")
     end
 
     # Verifies that the stored credentials are valid, and that we can talk to the target
