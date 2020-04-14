@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'puppet/resource_api/simple_provider'
-require 'puppet/util/nomad'
+require 'puppet_x/barskern/nomad'
 
 # Implementation for the nomad_job type using the Resource API.
 class Puppet::Provider::NomadJob::NomadJob < Puppet::ResourceApi::SimpleProvider
@@ -12,7 +12,7 @@ class Puppet::Provider::NomadJob::NomadJob < Puppet::ResourceApi::SimpleProvider
       :enable_ssl => false,
       :token => ENV['NOMAD_TOKEN']
     }
-    @inner = Puppet::Util::Nomad.new(connection_info)
+    @inner = Barskern::Nomad.new(connection_info)
   end
 
   def get(context, _names = nil)

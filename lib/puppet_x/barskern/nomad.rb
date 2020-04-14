@@ -5,7 +5,7 @@ require 'puppet/util/json'
 require 'puppet/pops'
 require 'uri'
 
-module Puppet::Util
+module Barskern
   # The main connection class to a Nomad endpoint
   class Nomad
     # Initialise this transport with a set of credentials
