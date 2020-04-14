@@ -18,7 +18,7 @@ these lines.
 **Autorequires**:
 * `Package[foo]`
 EOS
-  features: ['simple_get_filter', 'remote_resource'],
+  features: ['simple_get_filter'],
   attributes: {
     ensure: {
       type:    'Enum[present, absent]',

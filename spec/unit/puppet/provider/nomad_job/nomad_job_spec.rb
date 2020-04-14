@@ -8,18 +8,15 @@ require 'puppet/provider/nomad_job/nomad_job'
 RSpec.describe Puppet::Provider::NomadJob::NomadJob do
   subject(:provider) { described_class.new }
 
-  let(:connection_info) { { host: 'valid.org', enable_ssl: false } }
   let(:context) { instance_double('Puppet::ResourceApi::BaseContext', 'context') }
 
   before(:each) do
     allow(context).to receive_messages([:info, :debug])
 
-    allow(context).to receive(:transport).and_return(Puppet::Transport::Nomad.new(context, connection_info))
-
-    stub_request(:get, 'http://valid.org:4646/v1/jobs')
+    stub_request(:get, 'http://localhost:4646/v1/jobs')
       .to_return(body: '[{"ID": "abc"}]')
 
-    uri_template = Addressable::Template.new 'http://valid.org:4646/v1/job/{id}'
+    uri_template = Addressable::Template.new 'http://localhost:4646/v1/job/{id}'
     stub_request(:get, uri_template)
       .to_return(body: '{"ID": "abc"}')
     stub_request(:post, uri_template)
@@ -27,7 +24,7 @@ RSpec.describe Puppet::Provider::NomadJob::NomadJob do
     stub_request(:delete, uri_template)
       .to_return(body: '{"ID": "abc"}')
 
-    stub_request(:post, 'http://valid.org:4646/v1/jobs')
+    stub_request(:post, 'http://localhost:4646/v1/jobs')
       .to_return(body: ->(request) { request.body })
   end
 
@@ -44,7 +41,7 @@ RSpec.describe Puppet::Provider::NomadJob::NomadJob do
     it 'creates the resource' do
       provider.create(context, 'xxx', name: 'xxx', ensure: 'present', job: { 'ID' => 'xxx' })
 
-      expect(a_request(:post, 'http://valid.org:4646/v1/jobs').with(body: '{"ID":"xxx"}'))
+      expect(a_request(:post, 'http://localhost:4646/v1/jobs').with(body: '{"ID":"xxx"}'))
         .to have_been_made
     end
   end
@@ -53,7 +50,7 @@ RSpec.describe Puppet::Provider::NomadJob::NomadJob do
     it 'updates the resource' do
       provider.update(context, 'xxx', name: 'xxx', ensure: 'present', job: { 'ID' => 'xxx' })
 
-      expect(a_request(:post, 'http://valid.org:4646/v1/job/xxx').with(body: '{"ID":"xxx"}'))
+      expect(a_request(:post, 'http://localhost:4646/v1/job/xxx').with(body: '{"ID":"xxx"}'))
         .to have_been_made
     end
   end
@@ -62,7 +59,7 @@ RSpec.describe Puppet::Provider::NomadJob::NomadJob do
     it 'updates the resource' do
       provider.delete(context, 'xxx')
 
-      expect(a_request(:delete, 'http://valid.org:4646/v1/job/xxx')).to have_been_made
+      expect(a_request(:delete, 'http://localhost:4646/v1/job/xxx')).to have_been_made
     end
   end
 end

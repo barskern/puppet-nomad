@@ -7,7 +7,7 @@ module Puppet::Transport
   class Nomad
     # Initialise this transport with a set of credentials
     def initialize(context, connection_info)
-      @inner = Puppet::Util::Nomad.new(context, connection_info)
+      @inner = Puppet::Util::Nomad.new(connection_info)
     end
 
     # Verifies that the stored credentials are valid, and that we can talk to the target
