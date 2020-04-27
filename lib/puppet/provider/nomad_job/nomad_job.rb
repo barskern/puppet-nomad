@@ -19,7 +19,7 @@ class Puppet::Provider::NomadJob::NomadJob < Puppet::ResourceApi::SimpleProvider
     @inner.get('/v1/jobs').map do |job|
       {
         name: job['ID'],
-        job: @inner.get("/v1/job/#{job['ID']}"),
+        job: { 'Job' => @inner.get("/v1/job/#{job['ID']}") },
         ensure: 'present',
       }
     end

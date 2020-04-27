@@ -32,25 +32,25 @@ RSpec.describe Puppet::Provider::NomadJob::NomadJob do
   describe '#get' do
     it 'processes resources' do
       expect(provider.get(context)).to eq [
-        { job: { 'ID' => 'abc' }, ensure: 'present', name: 'abc' },
+        { job: { 'Job' => { 'ID' => 'abc' } }, ensure: 'present', name: 'abc' },
       ]
     end
   end
 
   describe 'create(context, name, should)' do
     it 'creates the resource' do
-      provider.create(context, 'xxx', name: 'xxx', ensure: 'present', job: { 'ID' => 'xxx' })
+      provider.create(context, 'xxx', name: 'xxx', ensure: 'present', job: { 'Job' => { 'ID' => 'xxx' }})
 
-      expect(a_request(:post, 'http://localhost:4646/v1/jobs').with(body: '{"ID":"xxx"}'))
+      expect(a_request(:post, 'http://localhost:4646/v1/jobs').with(body: '{"Job":{"ID":"xxx"}}'))
         .to have_been_made
     end
   end
 
   describe 'update(context, name, should)' do
     it 'updates the resource' do
-      provider.update(context, 'xxx', name: 'xxx', ensure: 'present', job: { 'ID' => 'xxx' })
+      provider.update(context, 'xxx', name: 'xxx', ensure: 'present', job: { 'Job' => { 'ID' => 'xxx' }})
 
-      expect(a_request(:post, 'http://localhost:4646/v1/job/xxx').with(body: '{"ID":"xxx"}'))
+      expect(a_request(:post, 'http://localhost:4646/v1/job/xxx').with(body: '{"Job":{"ID":"xxx"}}'))
         .to have_been_made
     end
   end
