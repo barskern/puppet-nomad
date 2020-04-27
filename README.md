@@ -107,23 +107,13 @@ job "http-echo" {
 }
 ```
 
-2. Ensure the file is uploaded to the server at a consistent spot.
-
-```puppet
-file { ['/opt', '/opt/nomad', '/opt/nomad/jobs']:
-  ensure => 'directory',
-}
--> file { '/opt/nomad/job/http-echo.nomad':
-  ensure  => 'present',
-  content => file("profile/jobs/http-echo.nomad"),
-}
-```
-
-3. Apply load the job using `nomad::loadhcl` and apply it.
+2. Apply load the job using `nomad::loadhcl` and apply it (one could also
+   specify the job description as a hash directly in the puppet file).
 
 ```puppet
 nomad_job { 'http-echo':
-  job => nomad::loadhcl('/opt/nomad/jobs/http-echo.nomad'),
+  ensure => 'present',
+  job => nomad::loadhcl(file('profile/files/job/http-echo.nomad')),
 }
 ```
 
