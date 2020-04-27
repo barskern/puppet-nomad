@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'puppet/http'
-require 'puppet/util/json'
 require 'puppet/pops'
+require 'net/http'
+require 'json'
 require 'uri'
 
 module Barskern
@@ -12,7 +12,6 @@ module Barskern
     def initialize(connection_info)
       @uri = URI("http#{connection_info[:enable_ssl] ? 's' : ''}://#{connection_info[:host]}:#{connection_info[:port] || 4646}")
       @token = connection_info[:token]
-      @client = Puppet::HTTP::Client.new
     end
 
     # Verifies that the stored credentials are valid, and that we can talk to the target
@@ -28,18 +27,15 @@ module Barskern
 
     # Close the connection and release all resources
     def close(context)
-      context.debug('Closing connection')
-      @client.close
-      @client = nil
     end
 
     ### Methods used to commuicate with Nomad API ###
 
     def get(path)
-      @client.connect(@uri) do |http|
+      Net::HTTP.start(@uri.host, @uri.port) do |http|
         res = http.get(path, default_headers)
         if res.code == '200'
-          return Puppet::Util::Json.load(res.body)
+          return JSON.parse(res.body)
         else
           raise RuntimeError, "Error from '#{@uri}': #{res.code} #{res.message} - #{res.body}"
         end
@@ -47,14 +43,14 @@ module Barskern
     end
 
     def post(path, data)
-      @client.connect(@uri) do |http|
+      Net::HTTP.start(@uri.host, @uri.port) do |http|
         headers = Puppet::Pops::MergeStrategy.
           strategy(:hash).
           merge({'Content-Type' => 'application/json'}, default_headers)
 
-        res = http.post(path, Puppet::Util::Json.dump(data), headers)
+        res = http.post(path, data.to_json, headers)
         if res.code == '200'
-          return Puppet::Util::Json.load(res.body)
+          return JSON.parse(res.body)
         else
           raise RuntimeError, "Error from '#{@uri}': #{res.code} #{res.message} - #{res.body}"
         end
@@ -62,14 +58,14 @@ module Barskern
     end
 
     def put(path, data)
-      @client.connect(@uri) do |http|
+      Net::HTTP.start(@uri.host, @uri.port) do |http|
         headers = Puppet::Pops::MergeStrategy.
           strategy(:hash).
           merge({'Content-Type' => 'application/json'}, default_headers)
 
         res = http.put(path, Puppet::Util::Json.dump(data), headers)
         if res.code == '200'
-          return Puppet::Util::Json.load(res.body)
+          return JSON.parse(res.body)
         else
           raise RuntimeError, "Error from '#{@uri}': #{res.code} #{res.message} - #{res.body}"
         end
@@ -77,10 +73,10 @@ module Barskern
     end
 
     def delete(path)
-      @client.connect(@uri) do |http|
+      Net::HTTP.start(@uri.host, @uri.port) do |http|
         res = http.delete(path, default_headers)
         if res.code == '200'
-          return Puppet::Util::Json.load(res.body)
+          return JSON.parse(res.body)
         else
           raise RuntimeError, "Error from '#{@uri}': #{res.code} #{res.message} - #{res.body}"
         end
